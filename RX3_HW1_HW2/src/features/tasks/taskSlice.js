@@ -1,47 +1,39 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+export const fetchTasks = createAsyncThunk ("tasks/fetchTasks", async () => {
+    const response = await axios.get("https://task-list-hw-server-Student-neoG-Ca.replit.app/tasks") 
+    console.log("response", response)
+    return response.data
+}) 
 
 export const taskSlice = createSlice({
     name: "tasks",
     initialState: {
-        tasks: [
-            {
-                id: 1,
-                name: "Get Groceries from the market",
-                date: "15/07/2024",
-                completed: false,
-            },
-            {
-                id: 2,
-                name: "Go to Gym",
-                date: "15/07/2024",
-                completed: true,
-            },
-            {
-                id: 3,
-                name: "Water the plants",
-                date: "15/07/2024",
-                completed: true
-            },
-            {
-                id: 4,
-                name: "Go to the park",
-                date: "16/07/2024",
-                completed: true,
-            },
-            {
-                id: 5,
-                name: "Get my room cleaned",
-                date: "16/07/2024",
-                completed: false
-            }
-
-        ]
+        tasks: [],
+        status: "idle",
+        error: null,
     },
     reducers: {
-        toggleStatus: (state, action) => {
-            const taskIndex = state.tasks.findIndex(task => task.id === action.payload)
-            state.tasks[taskIndex].completed = !state.tasks[taskIndex].completed
+        toggleStatus : (state, action) => {
+            state.tasks.forEach((task, index) => {
+                const taskIndex = task.tasks.findIndex(task => task.taskId === action.payload)
+                if (taskIndex !== -1) task.tasks[taskIndex].taskStatus = task.tasks[taskIndex].taskStatus === "Pending" ? "Completed" : "Pending" 
+            })
         }
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchTasks.pending, (state) => {
+            state.status = "loading"
+        })
+        builder.addCase(fetchTasks.fulfilled, (state, action) => {
+            state.status = "success"
+            state.tasks = action.payload.tasks
+        })
+        builder.addCase(fetchTasks.rejected, (state, action) => {
+            state.status = "error"
+            state.error = action.payload.message
+        })
     }
 })
 

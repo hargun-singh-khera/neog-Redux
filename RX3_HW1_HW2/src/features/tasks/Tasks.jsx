@@ -1,35 +1,38 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from "react-redux"
-import { toggleStatus } from './taskSlice'
+import { fetchTasks, toggleStatus } from './taskSlice'
 
 const Tasks = () => {
     const dispatch = useDispatch()
-    const tasks = useSelector(state => state.tasks)
-    console.log(tasks)
+    const { tasks, status, error } = useSelector(state => state.tasks)
+    console.log("tasks", tasks)
+
+    useEffect(() => {
+        dispatch(fetchTasks())
+    }, [])
+
   return (
     <div>
         <h1>My Task List</h1>
-        <h2>15/07/2024</h2>
+        <h2>{tasks[0]?.date}</h2>
         <ul>
-            {tasks.tasks.filter(task => task.date === "15/07/2024").map(task => (
-                <li key={task.id}>
+            {tasks[0]?.tasks?.map(task => (
+                <li key={task.taskId}>
                     <p>
-                        {task.name} {" "}
-                        <button onClick={() => dispatch(toggleStatus(task.id))}>{task.completed ? "Completed" : "Pending"}</button>
+                        {task.task} {" "}
+                        <button onClick={() => dispatch(toggleStatus(task.taskId))}>{task.taskStatus}</button>
                     </p>
-                    {/* <p>Status: {task.completed ? "Completed" : "Pending"}</p> */}
                 </li>
             ))}
         </ul>
-        <h2>16/07/2024</h2>
+        <h2>{tasks[1]?.date}</h2>
         <ul>
-            {tasks.tasks.filter(task => task.date === "16/07/2024").map(task => (
-                <li key={task.id}>
+            {tasks[1]?.tasks?.map(task => (
+                <li key={task.taskId}>
                     <p>
-                        {task.name} {" "}
-                        <button onClick={() => dispatch(toggleStatus(task.id))}>{task.completed ? "Completed" : "Pending"}</button>
+                        {task.task} {" "}
+                        <button onClick={() => dispatch(toggleStatus(task.taskId))}>{task.taskStatus}</button>
                     </p>
-                    {/* <p>Status: {task.completed ? "Completed" : "Pending"}</p> */}
                 </li>
             ))}
         </ul>
