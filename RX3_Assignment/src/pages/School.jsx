@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import SchoolView from '../components/SchoolView'
+import SchoolView from '../features/school/SchoolView'
 
 const School = () => {
   return (
