@@ -2,26 +2,26 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchTeachers = createAsyncThunk("teachers/fetchTeachers", async () => {
-    const response = await axios.get("http://localhost:3000/teachers")
+    const response = await axios.get("https://neog-redux-backend.vercel.app/teachers")
     console.log("response of fetch", response)
     return response.data
 })
 
 export const addTeacherAsync = createAsyncThunk("teachers/addTeacher", async (teacher) => {
-    const response = await axios.post("http://localhost:3000/teachers", teacher)
+    const response = await axios.post("https://neog-redux-backend.vercel.app/teachers", teacher)
     console.log("response of add", response)
     return response.data
 })
 
 export const updateTeacherAsync = createAsyncThunk("teachers/updateTeacher", async (teacher) => {
     console.log("teacher update thunk", teacher)
-    const response = await axios.post(`http://localhost:3000/teachers/${teacher.id}`, teacher)
+    const response = await axios.post(`https://neog-redux-backend.vercel.app/teachers/${teacher.id}`, teacher)
     console.log("response of update", response)
     return response.data
 })
 
 export const deleteTeacherAsync = createAsyncThunk("teachers/deleteTeacher", async (id) => {
-    const response = await axios.delete(`http://localhost:3000/teachers/${id}`)
+    const response = await axios.delete(`https://neog-redux-backend.vercel.app/teachers/${id}`)
     console.log("response of delete", response)
     return response.data
 })

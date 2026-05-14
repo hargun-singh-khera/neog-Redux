@@ -2,26 +2,26 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const fetchStudents = createAsyncThunk("students/fetchStudents", async () => {
-    const response = await axios.get("http://localhost:3000/students")
+    const response = await axios.get("https://neog-redux-backend.vercel.app/students")
     console.log("response of fetch", response)
     return response.data
 })
 
 export const addStudentAsync = createAsyncThunk("students/addStudent", async (student) => {
-    const response = await axios.post("http://localhost:3000/students", student)
+    const response = await axios.post("https://neog-redux-backend.vercel.app/students", student)
     console.log("response of add", response)
     return response.data
 })
 
 export const updateStudentAsync = createAsyncThunk("students/updateStudent", async (student) => {
     console.log("student update thunk", student)
-    const response = await axios.post(`http://localhost:3000/students/${student.id}`, student)
+    const response = await axios.post(`https://neog-redux-backend.vercel.app/students/${student.id}`, student)
     console.log("response of update", response)
     return response.data
 })
 
 export const deleteStudentAsync = createAsyncThunk("students/deleteStudent", async (id) => {
-    const response = await axios.delete(`http://localhost:3000/students/${id}`)
+    const response = await axios.delete(`https://neog-redux-backend.vercel.app/students/${id}`)
     console.log("response of delete", response)
     return response.data
 })
